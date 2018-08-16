@@ -20,12 +20,6 @@ public class UserController {
     }
 
     // This method makes search on userRepository and fetches all users' data that contains the name without case sensitivity.
-//    @RequestMapping(value = "/search", method = RequestMethod.GET)
-//    public ResponseEntity<List<User>> findUsersByName(@RequestParam(value = "name") final String name){
-//        List<User> users = userService.findByNameIgnoreCase(name);
-//        return new ResponseEntity<>(users, HttpStatus.CREATED);
-//    }
-
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:3000")
     @ResponseBody

@@ -9,6 +9,7 @@ const axios = require('axios');
 
 class App extends Component {
 
+    state = {users: []}
 
     handleChange = (event) => {
         this.setState({request: event.target.value})
@@ -32,9 +33,7 @@ class App extends Component {
             const users = await getUsers()
 
             if (users.data) {
-                users.data.forEach(function (u) {
-                   console.log(u);  // logs each user in the array individually.
-                });
+                this.setState({users: users.data});
 
             } else {
                 console.log()
@@ -45,7 +44,7 @@ class App extends Component {
 
          [{"id":3,"name":"Ada ","phoneNumber":"+109006598745-1223","address":"England"},{"id":9,"name":"Adamon","phoneNumber":"009891212-1222","address":"England"}]
 
-         when search with key 'ada' is made. */
+         eg. when search with key 'ada', 'ADA' or 'aDa' is made. */
 
         prepareUsers()
 
@@ -64,20 +63,20 @@ class App extends Component {
                     </form>
                 </div>
 
-                {/*<div>*/}
+                <div>
+                    <ul>
+                        {this.state.users.map(user =>
+                            <li>
+                                {user.name}
+                            </li>
+                        )}
+                    </ul>
+                </div>
 
-                {/*<ul>*/}
-                {/*{this.state.request.map(*/}
-                {/*function (user) {*/}
-                {/*return <li> {user.name} </li>*/}
-                {/*}*/}
-                {/*)}*/}
-                {/*</ul>*/}
-
-                {/*</div>*/}
             </div>
         )
     }
 }
+
 
 export default App;
