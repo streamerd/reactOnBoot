@@ -1,15 +1,17 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'whatwg-fetch';
 import logo from './logo.svg';
 import './App.css';
+import 'axios';
 
+// used axios for making request to backend.
+const axios = require('axios');
 
 class App extends Component {
 
 
-
     handleChange = (event) => {
-        this.setState( {request: event.target.value} )
+        this.setState({request: event.target.value})
     }
     handleSubmit = (event) => {
         event.preventDefault();
@@ -18,42 +20,59 @@ class App extends Component {
             return;
         }
 
+        const getUsers = async () => {
+            try {
+                return await axios.get(`http://localhost:8080/user/search?name=${request}`)
+            } catch (e) {
+                console.log(e)
+            }
+        }
 
-        //API call to /user/search with request parameter with User's name
-        // returns [{"id":3,"name":"Ada ","phoneNumber":"+109006598745-1223","address":"England"}] fof 'ada' search,
-        fetch(`http://localhost:8080/user/search?name=${request}`, {mode: "no-cors"})
-            .then(response => {
-                console.log("response: " + response);
-                return response;
-             });
-            // .then(body => {
-            //     alert(body);
-            // });
+        const prepareUsers = async () => {
+            const users = await getUsers()
+
+            if (users.data) {
+                users.data.forEach(function (u) {
+                   console.log(u);  // logs each user in the array individually.
+                });
+
+            } else {
+                console.log()
+            }
+        }
+
+        /* API call to /user/search with request parameter with User's name,  returns
+
+         [{"id":3,"name":"Ada ","phoneNumber":"+109006598745-1223","address":"England"},{"id":9,"name":"Adamon","phoneNumber":"009891212-1222","address":"England"}]
+
+         when search with key 'ada' is made. */
+
+        prepareUsers()
 
     }
     render = () => {
         return (
             <div className="App">
                 <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
+                    <img src={logo} className="App-logo" alt="logo"/>
                     <h2>Who to look up to?</h2>
                 </div>
                 <div>
                     <form className="App-intro" onSubmit={this.handleSubmit}>
-                        <input type="text" onChange={this.handleChange} />
-                        <input type="submit" value="Search" />
+                        <input type="text" onChange={this.handleChange}/>
+                        <input type="submit" value="Search"/>
                     </form>
                 </div>
 
                 {/*<div>*/}
 
-                    {/*<ul>*/}
-                        {/*{this.state.request.map(*/}
-                            {/*function (user) {*/}
-                                {/*return <li> {user.name} </li>*/}
-                            {/*}*/}
-                        {/*)}*/}
-                    {/*</ul>*/}
+                {/*<ul>*/}
+                {/*{this.state.request.map(*/}
+                {/*function (user) {*/}
+                {/*return <li> {user.name} </li>*/}
+                {/*}*/}
+                {/*)}*/}
+                {/*</ul>*/}
 
                 {/*</div>*/}
             </div>
