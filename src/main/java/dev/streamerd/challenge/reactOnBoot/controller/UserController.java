@@ -19,17 +19,24 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<User> getAllUsers(){
-        List<User> users = userService.findAll();
+    // This method makes search on userRepository and fetches all users' data that contains the name without case sensitivity.
+//    @RequestMapping(value = "/search", method = RequestMethod.GET)
+//    public ResponseEntity<List<User>> findUsersByName(@RequestParam(value = "name") final String name){
+//        List<User> users = userService.findByNameIgnoreCase(name);
+//        return new ResponseEntity<>(users, HttpStatus.CREATED);
+//    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public List<User> findUsersByName(@RequestParam(value = "name", defaultValue = "Ada") final String name){
+        List<User> users = userService.findByNameIgnoreCase(name);
         return users;
     }
 
-    // This method makes search on userRepository and fetches all users' data that contains the name without case sensitivity.
-    @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<List<User>> findUsersByName(@RequestParam(value = "name") final String name){
-        List<User> users = userService.findByNameIgnoreCase(name);
-        return new ResponseEntity<>(users, HttpStatus.CREATED);
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getAllUsers(){
+        List<User> users = userService.findAll();
+        return new ResponseEntity<>(users, HttpStatus.CREATED) ;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
