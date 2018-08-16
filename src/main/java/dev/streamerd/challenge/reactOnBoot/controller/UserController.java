@@ -26,11 +26,10 @@ public class UserController {
 //        return new ResponseEntity<>(users, HttpStatus.CREATED);
 //    }
 
-    //@RequestMapping(value = "/search", method = RequestMethod.GET)
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/search")
     @ResponseBody
-    public List<User> findUsersByName(@RequestParam(value = "name", defaultValue = "Ada") final String name){
+    public List<User> findUsersByName(@RequestParam(value = "name") final String name){
         List<User> users = userService.findByNameIgnoreCase(name);
         return users;
     }
